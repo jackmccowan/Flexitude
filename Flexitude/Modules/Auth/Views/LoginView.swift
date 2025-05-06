@@ -13,7 +13,7 @@ struct LoginView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                Text("Flexitude")
+                Text("Welcome to Flexitude")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.top, 50)

@@ -13,7 +13,7 @@ struct ContentView: View {
     var body: some View {
         Group {
             if authViewModel.isLoggedIn {
-                MainView(viewModel: authViewModel)
+                MainTabView(viewModel: authViewModel)
             } else {
                 LoginView(viewModel: authViewModel)
             }
@@ -21,33 +21,35 @@ struct ContentView: View {
     }
 }
 
-struct MainView: View {
+struct MainTabView: View {
     @ObservedObject var viewModel: AuthViewModel
+    @State private var selectedTab = 0
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                Text("Welcome, \(viewModel.currentUser?.fullName ?? "User")!")
-                    .font(.title)
-                    .padding()
-                
-                Text("You have successfully logged in.")
-                    .padding()
-                
-                Button(action: {
-                    viewModel.logout()
-                }) {
-                    Text("Logout")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.red)
-                        .cornerRadius(8)
+        TabView(selection: $selectedTab) {
+            HomeView()
+                .tabItem {
+                    Label("Home", systemImage: "house")
                 }
-                .padding(.top, 30)
-                
-                Spacer()
-            }
-            .navigationTitle("Flexitude")
+                .tag(0)
+            
+            WorkoutsView()
+                .tabItem {
+                    Label("Workouts", systemImage: "figure.run")
+                }
+                .tag(1)
+            
+            SleepView()
+                .tabItem {
+                    Label("Sleep", systemImage: "moon.zzz")
+                }
+                .tag(2)
+            
+            ProfileView(viewModel: viewModel)
+                .tabItem {
+                    Label("Profile", systemImage: "person")
+                }
+                .tag(3)
         }
     }
 }
