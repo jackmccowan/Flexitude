@@ -33,7 +33,7 @@ struct MainTabView: View {
                 }
                 .tag(0)
             
-            WorkoutsView()
+            WorkoutsView(authViewModel: viewModel)
                 .tabItem {
                     Label("Workouts", systemImage: "figure.run")
                 }
