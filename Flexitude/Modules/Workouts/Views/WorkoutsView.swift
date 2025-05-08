@@ -17,7 +17,7 @@ struct WorkoutsView: View {
                 
                 Spacer()
             }
-            .navigationTitle("Workouts")
+            .navigationTitle("Workouts123")
         }
     }
 }
