@@ -9,11 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var authViewModel = AuthViewModel()
+    @EnvironmentObject private var healthStore: HealthStoreManager
     
     var body: some View {
         Group {
             if authViewModel.isLoggedIn {
                 MainTabView(viewModel: authViewModel)
+                    .environmentObject(healthStore)
             } else {
                 LoginView(viewModel: authViewModel)
             }
@@ -56,4 +58,5 @@ struct MainTabView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(HealthStoreManager())
 }
