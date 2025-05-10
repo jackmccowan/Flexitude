@@ -129,7 +129,7 @@ struct CreateWorkoutView: View {
             durationMinutes: duration,
             difficulty: difficulty,
             exercises: exercises,
-            imageName: "run",
+            imageName: "run"
         )
         viewModel.addWorkout(workout)
         dismiss()
