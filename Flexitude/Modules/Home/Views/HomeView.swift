@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var viewModel: AuthViewModel
     @State private var recentWorkouts: [Workout] = []
+    @State private var showMessage = false
     
     private let workoutService = WorkoutService()
 
@@ -17,10 +18,11 @@ struct HomeView: View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 16) {
                 // Welcome message
-                if let firstName = viewModel.currentUser?.firstName {
-                    Text("Welcome back, \(firstName)!")
-                        .font(.title2)
-                        .fontWeight(.semibold)
+                if showMessage {
+                    Text("Welcome back, \(viewModel.currentUser?.firstName ?? "")!")
+                        .font(.system(size: 30, weight: .bold))
+                        .frame(maxWidth: .infinity)
+                        .transition(.opacity)
                         .padding(.top)
                 }
 
@@ -40,7 +42,7 @@ struct HomeView: View {
                                     Image(imageName)
                                         .resizable()
                                         .scaledToFill()
-                                        .frame(height: 200)
+                                        .frame(height: 150)
                                         .cornerRadius(12)
                                 }
 
@@ -57,18 +59,28 @@ struct HomeView: View {
                             }
                             .background(Color(.gray.opacity(0.5)))
                             .cornerRadius(16)
-                            .frame(width: UIScreen.main.bounds.width * 0.8, height: 500)
+                            .frame(width: UIScreen.main.bounds.width * 0.8)
                             .tag(index)
                         }
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-                    .frame(height: 300)
+                    .frame(height: 250)
                 }
                 Spacer()
             }
             .padding(.horizontal)
             .navigationTitle("Home")
             .onAppear {
+                withAnimation(.easeIn(duration: 0.5)) {
+                    showMessage = true
+                }
+                
+                // Will use this code once we can add workouts
+                // if let userId = viewModel.currentUser?.id.uuidString {
+                //    recentWorkouts = workoutService.getWorkouts(for: userId)
+                // }
+                
+                // Add samle workouts for now
                 guard let user = viewModel.currentUser else { return }
                 let userId = user.id.uuidString
 
