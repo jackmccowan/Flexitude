@@ -114,6 +114,10 @@ class AuthViewModel: ObservableObject {
         return emailPred.evaluate(with: email)
     }
     
+    func updateUser(user: User) {
+        userService.updateUser(user: user)
+    }
+    
     static func withPreviewUser() -> AuthViewModel {
         let authViewModel = AuthViewModel()
         
