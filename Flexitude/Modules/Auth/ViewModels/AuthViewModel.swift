@@ -113,4 +113,23 @@ class AuthViewModel: ObservableObject {
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
+    
+    static func withPreviewUser() -> AuthViewModel {
+        let authViewModel = AuthViewModel()
+        
+        let previewUser = User(
+            firstName: "John",
+            lastName: "Smith",
+            email: "JohnSmith@gmail.com",
+            dateOfBirth: Calendar.current.date(from: DateComponents(year: 2004, month: 7, day: 1))!,
+            height: 180,
+            weight: 70,
+            username: "JohnSmith",
+            password: "password")
+        
+        authViewModel.currentUser = previewUser
+        authViewModel.isLoggedIn = true
+        
+        return authViewModel
+    }
 }
