@@ -47,6 +47,14 @@ class UserService {
         UserDefaults.standard.removeObject(forKey: currentUserKey)
     }
     
+    func updateUser(user: User) {
+        var users = getAllUsers()
+        users.removeAll(where: { $0.id == user.id })
+        users.append(user)
+        
+        saveAllUsers(users)
+    }
+    
     // MARK: - Private Helper Methods - Could be good to move these later
     
     private func getAllUsers() -> [User] {

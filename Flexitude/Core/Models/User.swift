@@ -27,4 +27,27 @@ struct User: Codable, Identifiable {
         let ageComponents = calendar.dateComponents([.year], from: dateOfBirth, to: Date())
         return ageComponents.year ?? 0
     }
-} 
+    
+    // Copy-like method (don't think swift has one natively
+    func with(
+        firstName: String? = nil,
+        lastName: String? = nil,
+        email: String? = nil,
+        dateOfBirth: Date? = nil,
+        height: Double? = nil,
+        weight: Double? = nil,
+        username: String? = nil,
+        password: String? = nil
+    ) -> User {
+        return User(
+            firstName: firstName ?? self.firstName,
+            lastName: lastName ?? self.lastName,
+            email: email ?? self.email,
+            dateOfBirth: dateOfBirth ?? self.dateOfBirth,
+            height: height ?? self.height,
+            weight: weight ?? self.weight,
+            username: username ?? self.username,
+            password: password ?? self.password
+        )
+    }
+}

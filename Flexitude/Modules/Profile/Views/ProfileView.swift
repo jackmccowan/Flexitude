@@ -10,6 +10,9 @@ import SwiftUI
 struct ProfileView: View {
     @ObservedObject var viewModel: AuthViewModel
     
+    // Toggle for controlling editing
+    @State private var isEditing = false
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -30,13 +33,19 @@ struct ProfileView: View {
                             ProfileInfoRow(title: "Username", value: user.username)
                             ProfileInfoRow(title: "Email", value: user.email)
                             ProfileInfoRow(title: "Age", value: "\(user.age)")
-                            ProfileInfoRow(title: "Height", value: "\(Int(user.height)) cm")
-                            ProfileInfoRow(title: "Weight", value: "\(Int(user.weight)) kg")
+                            ProfileInfoRow(title: "Height", value: "\(user.height) cm")
+                            ProfileInfoRow(title: "Weight", value: "\(user.weight) kg")
                         }
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(10)
                         .padding(.horizontal)
+                        
+                        if !isEditing {
+                            Button("Edit Profile") {
+                                isEditing = true
+                            }
+                        }
                         
                         Button(action: {
                             viewModel.logout()
@@ -61,26 +70,39 @@ struct ProfileView: View {
             }
             .navigationTitle("Profile")
         }
+        .sheet(isPresented: $isEditing) {
+            EditProfileView(viewModel: viewModel)
+        }
     }
 }
 
 struct ProfileInfoRow: View {
     var title: String
-    var value: String
-    
+    var value: String = ""
+    var isEditable: Bool = false
+    var editableValue: Binding<String>? = nil
+    var placeHolder: String = ""
+
     var body: some View {
         HStack {
             Text(title)
                 .fontWeight(.medium)
                 .foregroundColor(.gray)
             Spacer()
-            Text(value)
-                .fontWeight(.semibold)
+            if isEditable, let editableValue = editableValue {
+                TextField(placeHolder, text: editableValue)
+                    .multilineTextAlignment(.trailing)
+                    .fontWeight(.semibold)
+                    .keyboardType(.decimalPad)
+            } else {
+                Text(value)
+                    .fontWeight(.semibold)
+            }
         }
         .padding(.vertical, 4)
     }
 }
 
 #Preview {
-    ProfileView(viewModel: AuthViewModel())
+    ProfileView(viewModel: AuthViewModel.withPreviewUser())
 }
