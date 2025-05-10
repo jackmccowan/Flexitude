@@ -15,60 +15,58 @@ struct HomeView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    
-                    // Welcome message
-                    if let firstName = viewModel.currentUser?.firstName {
-                        Text("Welcome back, \(firstName)!")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .padding(.top)
-                    }
+            VStack(alignment: .leading, spacing: 16) {
+                // Welcome message
+                if let firstName = viewModel.currentUser?.firstName {
+                    Text("Welcome back, \(firstName)!")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .padding(.top)
+                }
 
-                    Text("Recent Workouts")
-                        .font(.title3)
-                        .fontWeight(.medium)
-                    
-                    if recentWorkouts.isEmpty {
-                        Text("You haven't completed any workouts yet.")
-                            .foregroundColor(.gray)
-                    } else {
-                        // Workout Cards
-                        VStack(spacing: 16) {
-                            ForEach(recentWorkouts.prefix(3)) { workout in
-                                VStack(alignment: .leading, spacing: 12) {
-                                    if let imageName = workout.imageName {
-                                        Image(imageName)
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(height: 180)
-                                            .clipped()
-                                            .cornerRadius(12)
-                                    }
-                                    
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(workout.title)
-                                            .font(.headline)
-                                            .fontWeight(.bold)
-                                        
-                                        Text("\(workout.durationMinutes) mins • \(workout.difficulty)")
-                                            .font(.subheadline)
-                                            .foregroundColor(.secondary)
-                                    }
-                                    .padding(.horizontal)
-                                    .padding(.bottom)
+                Text("Recent Workouts")
+                    .font(.title3)
+                    .fontWeight(.medium)
+                
+                if recentWorkouts.isEmpty {
+                    Text("You haven't completed any workouts yet.")
+                        .foregroundColor(.gray)
+                } else {
+                    // Workout Cards
+                    TabView {
+                        ForEach(Array(recentWorkouts.prefix(3).enumerated()), id: \.element.id) { index, workout in
+                            VStack(alignment: .leading, spacing: 12) {
+                                if let imageName = workout.imageName {
+                                    Image(imageName)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(height: 200)
+                                        .cornerRadius(12)
                                 }
-                                .background(Color(.systemGray6))
-                                .cornerRadius(16)
-                                .frame(width: UIScreen.main.bounds.width * 0.8)
-                                .frame(maxWidth: .infinity)
+
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(workout.title)
+                                        .font(.headline)
+                                        .fontWeight(.bold)
+
+                                    Text("\(workout.durationMinutes) mins • \(workout.difficulty)")
+                                        .font(.subheadline)
+                                }
+                                .padding(.horizontal)
+                                .padding(.bottom, 40)
                             }
+                            .background(Color(.gray.opacity(0.5)))
+                            .cornerRadius(16)
+                            .frame(width: UIScreen.main.bounds.width * 0.8, height: 500)
+                            .tag(index)
                         }
                     }
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+                    .frame(height: 300)
                 }
-                .padding(.horizontal)
+                Spacer()
             }
+            .padding(.horizontal)
             .navigationTitle("Home")
             .onAppear {
                 guard let user = viewModel.currentUser else { return }
@@ -91,4 +89,3 @@ struct HomeView: View {
 #Preview {
     HomeView(viewModel: AuthViewModel())
 }
-
