@@ -78,16 +78,26 @@ struct ProfileView: View {
 
 struct ProfileInfoRow: View {
     var title: String
-    var value: String
-    
+    var value: String = ""
+    var isEditable: Bool = false
+    var editableValue: Binding<String>? = nil
+    var placeHolder: String = ""
+
     var body: some View {
         HStack {
             Text(title)
                 .fontWeight(.medium)
                 .foregroundColor(.gray)
             Spacer()
-            Text(value)
-                .fontWeight(.semibold)
+            if isEditable, let editableValue = editableValue {
+                TextField(placeHolder, text: editableValue)
+                    .multilineTextAlignment(.trailing)
+                    .fontWeight(.semibold)
+                    .keyboardType(.decimalPad)
+            } else {
+                Text(value)
+                    .fontWeight(.semibold)
+            }
         }
         .padding(.vertical, 4)
     }

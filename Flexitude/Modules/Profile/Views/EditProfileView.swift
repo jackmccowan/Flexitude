@@ -26,11 +26,19 @@ struct EditProfileView: View {
         NavigationStack {
             Form {
                 Section(header: Text("Edit Profile Info")) {
-                    TextField("Height (cm)", text: $height)
-                        .keyboardType(.numberPad)
-
-                    TextField("Weight (kg)", text: $weight)
-                        .keyboardType(.numberPad)
+                    ProfileInfoRow(
+                        title: "Height",
+                        isEditable: true,
+                        editableValue: $height,
+                        placeHolder: "cm"
+                    )
+                    
+                    ProfileInfoRow(
+                        title: "Weight",
+                        isEditable: true,
+                        editableValue: $weight,
+                        placeHolder: "kg"
+                    )
                 }
 
                 Button("Save") {
