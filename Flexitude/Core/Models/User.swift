@@ -40,6 +40,7 @@ struct User: Codable, Identifiable {
         password: String? = nil
     ) -> User {
         return User(
+            id: self.id,
             firstName: firstName ?? self.firstName,
             lastName: lastName ?? self.lastName,
             email: email ?? self.email,
