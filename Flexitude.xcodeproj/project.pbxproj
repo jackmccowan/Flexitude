@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		34B73F472DD0818100CACA42 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 34B73F462DD0817C00CACA42 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		125CEF3A2DC7824700228D4E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		125CEF292DC7824600228D4E /* Flexitude.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flexitude.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		125CEF392DC7824700228D4E /* FlexitudeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlexitudeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		125CEF432DC7824700228D4E /* FlexitudeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlexitudeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		34B73F462DD0817C00CACA42 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +80,7 @@
 		125CEF202DC7824600228D4E = {
 			isa = PBXGroup;
 			children = (
+				34B73F462DD0817C00CACA42 /* README.md */,
 				125CEF2B2DC7824600228D4E /* Flexitude */,
 				125CEF3C2DC7824700228D4E /* FlexitudeTests */,
 				125CEF462DC7824700228D4E /* FlexitudeUITests */,
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34B73F472DD0818100CACA42 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
