@@ -1,7 +1,9 @@
+import Foundation
 import SwiftUI
 
 struct WorkoutDetailView: View {
     let workout: Workout
+    @State private var isActiveWorkoutPresented = false
 
     var body: some View {
         ScrollView {
@@ -44,13 +46,36 @@ struct WorkoutDetailView: View {
                     }
                     .padding(.vertical, 4)
                 }
-
+                
+                Button("Start Workout") {
+                    isActiveWorkoutPresented = true
+                }
+                .buttonStyle(.borderedProminent)
+                .frame(maxWidth: .infinity)
+                .padding(.top)
+                
                 Spacer()
             }
             .padding()
         }
         .navigationTitle("Workout")
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $isActiveWorkoutPresented) {
+            ActiveWorkoutView(workout: workout)
+        }
     }
 }
 
+#Preview {
+    let previewWorkout = Workout(
+        userId: "preview",
+        title: "Core Strength",
+        description: "A tight and toned core routine.",
+        durationMinutes: 25,
+        difficulty: "Intermediate",
+        exercises: [Exercise(name: "Plank", reps: 1, sets: 3, restSeconds: 60)],
+        imageName: "abs"
+    )
+    
+    WorkoutDetailView(workout: previewWorkout)
+}
