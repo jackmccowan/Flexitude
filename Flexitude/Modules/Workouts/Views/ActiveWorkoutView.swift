@@ -37,13 +37,33 @@ struct ActiveWorkoutView: View {
     
     var body: some View {
         VStack(spacing: 30) {
-            Text("Active Workout")
+            Text(workout.title)
                 .font(.largeTitle)
                 .bold()
             
-            Text(formattedTime)
-                .font(.system(size: 48, weight: .semibold, design: .monospaced))
+            Text("Difficulty: \(workout.difficulty)")
+                .font(.subheadline)
+                .foregroundColor(.gray)
             
+            // Progress Circle with Time Remaining
+            ZStack {
+                Circle()
+                    .stroke(Color.gray.opacity(0.3), lineWidth: 30)
+                    .frame(width: 200, height: 200)
+                
+                Circle()
+                    .trim(from: 0, to: progress)
+                    .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 20, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
+                    .animation(.easeInOut(duration: 0.5), value: progress)
+                    .frame(width: 200, height: 200)
+                
+                Text(formattedTime)
+                    .font(.system(size: 48, weight: .semibold, design: .monospaced))
+            }
+            .padding(.top)
+        
+            // Controls (Pause/Resume and Stop)
             HStack(spacing: 20) {
                 Button(timerRunning ? "Pause" : "Resume") {
                     timerRunning.toggle()
@@ -57,6 +77,24 @@ struct ActiveWorkoutView: View {
                 .tint(.red)
             }
             
+            VStack(alignment: .leading, spacing: 12) {
+                Text("Exercises")
+                    .font(.headline)
+                
+                ForEach(workout.exercises) { exercise in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(exercise.name)
+                            .fontWeight(.semibold)
+                        
+                        Text("Sets: \(exercise.sets), Reps: \(exercise.reps), Rest: \(exercise.restSeconds)s")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal)
+            
             Spacer()
         }
         .padding()
@@ -69,6 +107,7 @@ struct ActiveWorkoutView: View {
             }
             else {
                 timer.upstream.connect().cancel()
+                timerRunning = false
             }
         }
     }
@@ -79,7 +118,7 @@ struct ActiveWorkoutView: View {
         userId: "preview",
         title: "Core Strength",
         description: "A tight and toned core routine.",
-        durationMinutes: 25,
+        durationMinutes: 1,
         difficulty: "Intermediate",
         exercises: [Exercise(name: "Plank", reps: 1, sets: 3, restSeconds: 60)],
         imageName: "abs"
