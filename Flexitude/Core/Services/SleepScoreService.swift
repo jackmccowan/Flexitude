@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct SleepScore {
     let score: Int
     let label: String
-    let color: String
+    let color: Color
     
     static func getLabel(for score: Int) -> String {
         switch score {
@@ -23,14 +24,14 @@ struct SleepScore {
         }
     }
     
-    static func getColor(for score: Int) -> String {
+    static func getColor(for score: Int) -> Color {
         switch score {
-        case 90...100: return "green"
-        case 70..<90: return "mint"
-        case 50..<70: return "yellow"
-        case 30..<50: return "orange"
-        case 1..<30: return "red"
-        default: return "gray"
+        case 90...100: return .green
+        case 70..<90: return .mint
+        case 50..<70: return .yellow
+        case 30..<50: return .orange
+        case 1..<30: return .red
+        default: return .gray
         }
     }
 }

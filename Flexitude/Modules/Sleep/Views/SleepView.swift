@@ -189,7 +189,7 @@ struct SleepScoreCard: View {
                     
                     Circle()
                         .trim(from: 0, to: CGFloat(sleepScore.score) / 100)
-                        .stroke(Color(sleepScore.color), lineWidth: 10)
+                        .stroke(sleepScore.color, lineWidth: 10)
                         .frame(width: 100, height: 100)
                         .rotationEffect(.degrees(-90))
                     
@@ -206,7 +206,7 @@ struct SleepScoreCard: View {
                     Text(sleepScore.label)
                         .font(.title2)
                         .fontWeight(.semibold)
-                        .foregroundColor(Color(sleepScore.color))
+                        .foregroundColor(sleepScore.color)
                     
                     sleepQualityDescription
                 }

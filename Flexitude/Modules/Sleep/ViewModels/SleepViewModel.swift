@@ -26,7 +26,7 @@ class SleepViewModel: ObservableObject {
     
     // Calculated stats
     @Published var sleepStageStats: [SleepStageStat] = []
-    @Published var sleepScore: SleepScore = SleepScore(score: 0, label: "No Data", color: "gray")
+    @Published var sleepScore: SleepScore = SleepScore(score: 0, label: "No Data", color: .gray)
     
     init() {
         loadSleepData()
@@ -42,7 +42,7 @@ class SleepViewModel: ObservableObject {
             self.sleepEntry = nil
             self.resetInputFields()
             self.sleepStageStats = []
-            self.sleepScore = SleepScore(score: 0, label: "No Data", color: "gray")
+            self.sleepScore = SleepScore(score: 0, label: "No Data", color: .gray)
         }
     }
     
