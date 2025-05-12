@@ -17,7 +17,7 @@ struct SleepView: View {
             VStack {
                 // Date selector with calendar
                 DateSelectionView(selectedDate: $viewModel.date, isShowingCalendar: $isShowingCalendar)
-                    .onChange(of: viewModel.date) { _ in
+                    .onChange(of: viewModel.date) {
                         viewModel.loadSleepData()
                     }
                 
@@ -116,7 +116,7 @@ struct CalendarView: View {
         )
         .datePickerStyle(GraphicalDatePickerStyle())
         .labelsHidden()
-        .onChange(of: selectedDate) { _ in
+        .onChange(of: selectedDate) {
             // Close calendar when date is selected
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 withAnimation {
