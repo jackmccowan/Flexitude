@@ -11,6 +11,7 @@ struct SleepView: View {
     @StateObject private var viewModel = SleepViewModel()
     @State private var isShowingInputSheet = false
     @State private var isShowingCalendar = false
+    @State private var isShowingHealthKitPermission = false
     
     var body: some View {
         NavigationStack {
@@ -34,15 +35,50 @@ struct SleepView: View {
             .navigationTitle("Sleep")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        isShowingInputSheet = true
-                    }) {
+                    Menu {
+                        Button(action: {
+                            isShowingInputSheet = true
+                        }) {
+                            Label("Manual Entry", systemImage: "pencil")
+                        }
+                        
+                        Button(action: {
+                            if viewModel.isHealthKitAuthorized {
+                                Task {
+                                    await viewModel.importFromHealthKit()
+                                }
+                            } else {
+                                isShowingHealthKitPermission = true
+                            }
+                        }) {
+                            Label("Import from Health", systemImage: "heart.fill")
+                        }
+                    } label: {
                         Image(systemName: "plus.circle")
                     }
                 }
             }
             .sheet(isPresented: $isShowingInputSheet) {
                 SleepInputView(viewModel: viewModel, isPresented: $isShowingInputSheet)
+            }
+            .sheet(isPresented: $isShowingHealthKitPermission) {
+                HealthKitPermissionView(isPresented: $isShowingHealthKitPermission) {
+                    Task {
+                        await viewModel.requestHealthKitAuthorization()
+                        if viewModel.isHealthKitAuthorized {
+                            await viewModel.importFromHealthKit()
+                        }
+                    }
+                }
+            }
+            .overlay {
+                if viewModel.isImportingFromHealth {
+                    ProgressView("Importing from Health...")
+                        .padding()
+                        .background(Color(.systemBackground))
+                        .cornerRadius(10)
+                        .shadow(radius: 10)
+                }
             }
         }
     }
@@ -489,6 +525,48 @@ struct SleepInputView: View {
             }
         }
         .presentationDetents([.medium])
+    }
+}
+
+struct HealthKitPermissionView: View {
+    @Binding var isPresented: Bool
+    var onAuthorize: () -> Void
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 24) {
+                Image(systemName: "heart.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .foregroundColor(.red)
+                Text("Connect to Apple Health")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                Text("Import your sleep data automatically from Apple Health. You'll be asked for permission to read your sleep data.")
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.secondary)
+                Button(action: {
+                    isPresented = false
+                    onAuthorize()
+                }) {
+                    Text("Connect")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                Button("Cancel") {
+                    isPresented = false
+                }
+                .foregroundColor(.red)
+            }
+            .padding()
+            .navigationTitle("Apple Health")
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 
