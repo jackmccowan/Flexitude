@@ -10,10 +10,17 @@ import SwiftUI
 struct SleepView: View {
     @StateObject private var viewModel = SleepViewModel()
     @State private var isShowingInputSheet = false
+    @State private var isShowingCalendar = false
     
     var body: some View {
         NavigationStack {
             VStack {
+                // Date selector with calendar
+                DateSelectionView(selectedDate: $viewModel.date, isShowingCalendar: $isShowingCalendar)
+                    .onChange(of: viewModel.date) { _ in
+                        viewModel.loadSleepData()
+                    }
+                
                 if let sleepEntry = viewModel.sleepEntry {
                     SleepSummaryView(sleepEntry: sleepEntry, sleepStageStats: viewModel.sleepStageStats)
                 } else {
@@ -32,6 +39,85 @@ struct SleepView: View {
             }
             .sheet(isPresented: $isShowingInputSheet) {
                 SleepInputView(viewModel: viewModel, isPresented: $isShowingInputSheet)
+            }
+        }
+    }
+}
+
+struct DateSelectionView: View {
+    @Binding var selectedDate: Date
+    @Binding var isShowingCalendar: Bool
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Button(action: {
+                    withAnimation {
+                        selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) ?? selectedDate
+                    }
+                }) {
+                    Image(systemName: "chevron.left")
+                        .padding()
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    isShowingCalendar.toggle()
+                }) {
+                    HStack {
+                        Text(selectedDate, style: .date)
+                            .fontWeight(.medium)
+                        Image(systemName: "calendar")
+                    }
+                    .padding(8)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    withAnimation {
+                        selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) ?? selectedDate
+                    }
+                }) {
+                    Image(systemName: "chevron.right")
+                        .padding()
+                }
+            }
+            .padding(.horizontal)
+            
+            if isShowingCalendar {
+                CalendarView(selectedDate: $selectedDate, isShowingCalendar: $isShowingCalendar)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                    .padding(.horizontal)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+            }
+        }
+    }
+}
+
+struct CalendarView: View {
+    @Binding var selectedDate: Date
+    @Binding var isShowingCalendar: Bool
+    
+    var body: some View {
+        DatePicker(
+            "",
+            selection: $selectedDate,
+            displayedComponents: [.date]
+        )
+        .datePickerStyle(GraphicalDatePickerStyle())
+        .labelsHidden()
+        .onChange(of: selectedDate) { _ in
+            // Close calendar when date is selected
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                withAnimation {
+                    isShowingCalendar = false
+                }
             }
         }
     }
@@ -236,6 +322,10 @@ struct SleepInputView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section {
+                    DatePicker("Date", selection: $viewModel.date, displayedComponents: [.date])
+                }
+                
                 Section(header: Text("Deep Sleep")) {
                     HStack {
                         Picker("Hours", selection: $viewModel.hoursDeepSleep) {
