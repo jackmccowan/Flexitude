@@ -27,13 +27,13 @@ struct MainTabView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            HomeView(viewModel: viewModel)
+            HomeView(viewModel: <#AuthViewModel#>)
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
                 .tag(0)
             
-            WorkoutsView(authViewModel: viewModel)
+            WorkoutsView(authViewModel: <#AuthViewModel#>)
                 .tabItem {
                     Label("Workouts", systemImage: "figure.run")
                 }
