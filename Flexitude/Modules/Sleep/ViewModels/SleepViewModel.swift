@@ -1,4 +1,4 @@
- //
+//
 //  SleepViewModel.swift
 //  Flexitude
 //
@@ -10,6 +10,7 @@ import Combine
 
 class SleepViewModel: ObservableObject {
     private let sleepDataService = SleepDataService()
+    private let sleepScoreService = SleepScoreService()
     
     // Sleep data
     @Published var sleepEntry: SleepEntry?
@@ -25,22 +26,28 @@ class SleepViewModel: ObservableObject {
     
     // Calculated stats
     @Published var sleepStageStats: [SleepStageStat] = []
+    @Published var sleepScore: SleepScore = SleepScore(score: 0, label: "No Data", color: "gray")
     
     init() {
         loadSleepData()
     }
     
     func loadSleepData() {
-        // In a real app, you might want to load data for a specific date
         if let entry = sleepDataService.getEntry(for: date) {
             self.sleepEntry = entry
             self.updateManualInputFields(from: entry)
             self.calculateSleepStats(from: entry)
+            self.calculateSleepScore()
         } else {
             self.sleepEntry = nil
             self.resetInputFields()
             self.sleepStageStats = []
+            self.sleepScore = SleepScore(score: 0, label: "No Data", color: "gray")
         }
+    }
+    
+    private func calculateSleepScore() {
+        self.sleepScore = sleepScoreService.calculateScore(for: sleepEntry)
     }
     
     private func updateManualInputFields(from entry: SleepEntry) {

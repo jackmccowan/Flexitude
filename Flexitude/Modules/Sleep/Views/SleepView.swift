@@ -22,7 +22,11 @@ struct SleepView: View {
                     }
                 
                 if let sleepEntry = viewModel.sleepEntry {
-                    SleepSummaryView(sleepEntry: sleepEntry, sleepStageStats: viewModel.sleepStageStats)
+                    SleepSummaryView(
+                        sleepEntry: sleepEntry, 
+                        sleepStageStats: viewModel.sleepStageStats,
+                        sleepScore: viewModel.sleepScore
+                    )
                 } else {
                     EmptySleepView()
                 }
@@ -146,10 +150,14 @@ struct EmptySleepView: View {
 struct SleepSummaryView: View {
     let sleepEntry: SleepEntry
     let sleepStageStats: [SleepStageStat]
+    let sleepScore: SleepScore
     
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
+                // Sleep Score Card
+                SleepScoreCard(sleepScore: sleepScore)
+                
                 // Total Sleep Card
                 TotalSleepCard(totalSleepTime: sleepEntry.totalSleepTime)
                 
@@ -160,6 +168,83 @@ struct SleepSummaryView: View {
                 SleepStagesDetailView(sleepEntry: sleepEntry)
             }
             .padding()
+        }
+    }
+}
+
+struct SleepScoreCard: View {
+    let sleepScore: SleepScore
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            Text("Sleep Score")
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            HStack(spacing: 20) {
+                ZStack {
+                    Circle()
+                        .stroke(Color(.systemGray4), lineWidth: 10)
+                        .frame(width: 100, height: 100)
+                    
+                    Circle()
+                        .trim(from: 0, to: CGFloat(sleepScore.score) / 100)
+                        .stroke(Color(sleepScore.color), lineWidth: 10)
+                        .frame(width: 100, height: 100)
+                        .rotationEffect(.degrees(-90))
+                    
+                    VStack(spacing: 0) {
+                        Text("\(sleepScore.score)")
+                            .font(.system(size: 32, weight: .bold))
+                        
+                        Text("%")
+                            .font(.system(size: 16, weight: .medium))
+                    }
+                }
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(sleepScore.label)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color(sleepScore.color))
+                    
+                    sleepQualityDescription
+                }
+            }
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(12)
+    }
+    
+    private var sleepQualityDescription: some View {
+        Group {
+            switch sleepScore.score {
+            case 90...100:
+                Text("Outstanding sleep quality with ideal sleep cycles.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            case 70..<90:
+                Text("Good sleep quality with healthy sleep cycles.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            case 50..<70:
+                Text("Average sleep quality. Try to improve deep and REM sleep.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            case 30..<50:
+                Text("Below average sleep quality. Focus on improving your sleep habits.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            case 1..<30:
+                Text("Poor sleep quality. Consider adjusting your sleep schedule.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            default:
+                Text("No sleep data available.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
         }
     }
 }
