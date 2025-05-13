@@ -16,7 +16,7 @@ struct User: Codable, Identifiable {
     var height: Double //cm
     var weight: Double //cm
     var username: String
-    var password: String // need to make this hashed or something secure todo
+    var password: String
     
     var fullName: String {
         return "\(firstName) \(lastName)"
@@ -28,7 +28,7 @@ struct User: Codable, Identifiable {
         return ageComponents.year ?? 0
     }
     
-    // Copy-like method (don't think swift has one natively
+    // Copy-like method (don't think swift has one natively)
     func with(
         firstName: String? = nil,
         lastName: String? = nil,
