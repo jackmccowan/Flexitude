@@ -35,7 +35,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		122AE47D2DD235AA0038D30C /* Exceptions for "Flexitude" folder in "Flexitude" target */ = {
+		122AE5BF2DD366880038D30C /* Exceptions for "Flexitude" folder in "Flexitude" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -48,7 +48,7 @@
 		125CEF2B2DC7824600228D4E /* Flexitude */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				122AE47D2DD235AA0038D30C /* Exceptions for "Flexitude" folder in "Flexitude" target */,
+				122AE5BF2DD366880038D30C /* Exceptions for "Flexitude" folder in "Flexitude" target */,
 			);
 			path = Flexitude;
 			sourceTree = "<group>";
@@ -420,8 +420,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Flexitude/Info.plist;
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "We will sync your data with the Apple Health app to give you better insights";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We will sync your data with the Apple Health app to give you better insights";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Flexitude needs access to your health data to import and analyze your sleep information.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Flexitude needs accesss to your health data to import and analyze your sleep information.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -454,8 +454,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Flexitude/Info.plist;
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "We will sync your data with the Apple Health app to give you better insights";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We will sync your data with the Apple Health app to give you better insights";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Flexitude needs access to your health data to import and analyze your sleep information.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Flexitude needs accesss to your health data to import and analyze your sleep information.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

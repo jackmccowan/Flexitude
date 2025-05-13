@@ -2,9 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>Flexitude needs access to your health data to import and analyze your sleep information.</string>
 	<key>NSHealthShareUsageDescription</key>
+	<string>Flexitude needs access to your health data to import and analyze your sleep information.</string>
+	<key>NSHealthUpdateUsageDescription</key>
 	<string>Flexitude needs access to your health data to import and analyze your sleep information.</string>
 </dict>
 </plist>
