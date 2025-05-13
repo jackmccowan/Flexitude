@@ -87,29 +87,15 @@ struct HomeView: View {
                 // Load sleep data
                 sleepViewModel.loadSleepData()
                 
-                // Will use this code once we can add workouts
-                // if let userId = viewModel.currentUser?.id.uuidString {
-                //    recentWorkouts = workoutService.getWorkouts(for: userId)
-                // }
-                
-                // Add samle workouts for now
-                guard let user = viewModel.currentUser else { return }
-                let userId = user.id.uuidString
-
-                let existing = workoutService.getWorkouts(for: userId)
-                if existing.isEmpty {
-                    let sampleSource = WorkoutViewModel(userId: userId)
-                    for workout in sampleSource.workouts {
-                        workoutService.saveWorkout(workout)
-                    }
+                // Retrieve recent workouts
+                if let userId = viewModel.currentUser?.id.uuidString {
+                    recentWorkouts = workoutService.getWorkouts(for: userId)
                 }
-
-                recentWorkouts = workoutService.getWorkouts(for: userId)
             }
         }
     }
 }
 
 #Preview {
-    HomeView(viewModel: AuthViewModel())
+    ContentView()
 }

@@ -46,8 +46,16 @@ struct WorkoutDetailView: View {
                     }
                     .padding(.vertical, 4)
                 }
-                
                 Button("Start Workout") {
+                    if let userId = AuthViewModel().currentUser?.id.uuidString {
+                        var updatedWorkout = workout
+                        updatedWorkout.userId = userId
+                        updatedWorkout.dateCreated = Date()
+
+                        let service = WorkoutService()
+                        service.saveWorkout(updatedWorkout)
+                    }
+
                     isActiveWorkoutPresented = true
                 }
                 .buttonStyle(.borderedProminent)

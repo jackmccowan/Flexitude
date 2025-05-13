@@ -1,15 +1,15 @@
 import Foundation
 
 struct Workout: Identifiable, Codable {
-    let id: UUID
-    let userId: String
-    let title: String
-    let description: String
-    let durationMinutes: Int
-    let difficulty: String
-    let exercises: [Exercise]
-    let dateCreated: Date
-    let imageName: String?
+    var id: UUID
+    var userId: String
+    var title: String
+    var description: String
+    var durationMinutes: Int
+    var difficulty: String
+    var exercises: [Exercise]
+    var dateCreated: Date
+    var imageName: String?
     
     init(userId: String, title: String, description: String, durationMinutes: Int, difficulty: String, exercises: [Exercise], imageName: String) {
         self.id = UUID()
