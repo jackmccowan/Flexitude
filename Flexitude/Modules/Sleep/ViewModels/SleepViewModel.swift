@@ -11,10 +11,13 @@ import Combine
 class SleepViewModel: ObservableObject {
     private let sleepDataService = SleepDataService()
     private let sleepScoreService = SleepScoreService()
+    private let healthKitService = HealthKitService()
     
     // Sleep data
     @Published var sleepEntry: SleepEntry?
     @Published var date = Date()
+    @Published var isHealthKitAuthorized = false
+    @Published var isImportingFromHealth = false
     
     // Manual input fields
     @Published var hoursDeepSleep = 0
@@ -30,6 +33,41 @@ class SleepViewModel: ObservableObject {
     
     init() {
         loadSleepData()
+    }
+    
+    func requestHealthKitAuthorization() async {
+        do {
+            try await healthKitService.requestAuthorization()
+            await MainActor.run {
+                self.isHealthKitAuthorized = healthKitService.isAuthorized
+            }
+        } catch {
+            print("HealthKit authorization failed: \(error)")
+        }
+    }
+    
+    func importFromHealthKit() async {
+        await MainActor.run {
+            self.isImportingFromHealth = true
+        }
+        
+        do {
+            if let healthEntry = try await healthKitService.fetchSleepData(for: date) {
+                await MainActor.run {
+                    self.sleepEntry = healthEntry
+                    self.updateManualInputFields(from: healthEntry)
+                    self.calculateSleepStats(from: healthEntry)
+                    self.calculateSleepScore()
+                    self.sleepDataService.saveEntry(healthEntry)
+                }
+            }
+        } catch {
+            print("Failed to import sleep data: \(error)")
+        }
+        
+        await MainActor.run {
+            self.isImportingFromHealth = false
+        }
     }
     
     func loadSleepData() {
