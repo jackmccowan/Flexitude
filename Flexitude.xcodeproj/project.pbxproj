@@ -35,7 +35,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		122AE5BF2DD366880038D30C /* Exceptions for "Flexitude" folder in "Flexitude" target */ = {
+		125B2BDF2DD3717E00599E2A /* Exceptions for "Flexitude" folder in "Flexitude" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -44,11 +44,22 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		122AE5C52DD36FA80038D30C /* Exceptions for "Flexitude" folder in "Copy Bundle Resources" phase from "Flexitude" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 125CEF272DC7824600228D4E /* Resources */;
+			membershipExceptions = (
+				FlexitudeRelease.entitlements,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		125CEF2B2DC7824600228D4E /* Flexitude */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				122AE5BF2DD366880038D30C /* Exceptions for "Flexitude" folder in "Flexitude" target */,
+				125B2BDF2DD3717E00599E2A /* Exceptions for "Flexitude" folder in "Flexitude" target */,
+				122AE5C52DD36FA80038D30C /* Exceptions for "Flexitude" folder in "Copy Bundle Resources" phase from "Flexitude" target */,
 			);
 			path = Flexitude;
 			sourceTree = "<group>";
